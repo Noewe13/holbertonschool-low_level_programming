@@ -36,6 +36,60 @@ int read_choice(void)
 }
 
 /**
+ * read_number - prompts for a number until a valid one is typed
+ * @label: text shown before reading (example: "A: ")
+ * @n: where to store the number
+ *
+ * Return: 1 on success, 0 on end of input
+ */
+int read_number(char *label, double *n)
+{
+	int ret, c;
+
+	while (1)
+	{
+		printf("%s", label);
+		ret = scanf("%lf", n);
+		if (ret == 1)
+			return (1);
+		if (ret == EOF)
+			return (0);
+		c = getchar();
+		while (c != '\n' && c != EOF)
+			c = getchar();
+		printf("Invalid number\n");
+	}
+}
+
+/**
+ * calculate - asks for A and B, then prints the result of the operation
+ * @choice: the operation (1 add, 2 subtract, 3 multiply, 4 divide)
+ */
+void calculate(int choice)
+{
+	double a, b, result;
+
+	if (!read_number("A: ", &a) || !read_number("B: ", &b))
+		return;
+	if (choice == 4 && b == 0)
+	{
+		printf("Error: division by zero\n");
+		return;
+	}
+	if (choice == 1)
+		result = a + b;
+	else if (choice == 2)
+		result = a - b;
+	else if (choice == 3)
+		result = a * b;
+	else
+		result = a / b;
+	if (result == 0)
+		result = 0;
+	printf("Result: %.10g\n", result);
+}
+
+/**
  * main - entry point of the simple calculator
  *
  * Return: Always 0 (Success)
@@ -57,7 +111,7 @@ int main(void)
 		if (choice < 1 || choice > 4)
 			printf("Invalid choice\n");
 		else
-			printf("Not implemented yet\n");
+			calculate(choice);
 	}
 	return (0);
 }
