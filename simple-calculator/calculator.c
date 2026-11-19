@@ -14,6 +14,28 @@ void print_menu(void)
 }
 
 /**
+ * read_choice - reads the user's choice
+ *
+ * Return: the number typed, -1 if it is not a number, 0 on end of input
+ */
+int read_choice(void)
+{
+	int choice, ret, c;
+
+	ret = scanf("%d", &choice);
+	if (ret == EOF)
+		return (0);
+	if (ret != 1)
+	{
+		c = getchar();
+		while (c != '\n' && c != EOF)
+			c = getchar();
+		return (-1);
+	}
+	return (choice);
+}
+
+/**
  * main - entry point of the simple calculator
  *
  * Return: Always 0 (Success)
@@ -26,12 +48,16 @@ int main(void)
 	while (1)
 	{
 		print_menu();
-		if (scanf("%d", &choice) != 1 || choice == 0)
+		choice = read_choice();
+		if (choice == 0)
 		{
 			printf("Bye!\n");
 			return (0);
 		}
-		printf("Not implemented yet\n");
+		if (choice < 1 || choice > 4)
+			printf("Invalid choice\n");
+		else
+			printf("Not implemented yet\n");
 	}
 	return (0);
 }
